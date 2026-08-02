@@ -1,53 +1,21 @@
-// simple project using Arduino UNO and 128x64 OLED Display to display a menu
-// created by upir, 2022
-// youtube channel: https://www.youtube.com/upir_upir
-
-// YOUTUBE VIDEO: https://youtu.be/HVHVkKt-ldc
-// YOUTUBE VIDEO u8g2 version: https://youtu.be/K5e0lFRvZ2E
-
-// links from the video:
-// Flipper Zero menu - https://docs.flipperzero.one/basics/control#M5BZO
-// WOKWI start project progress bar - https://wokwi.com/projects/300867986768527882
-// image2cpp - https://javl.github.io/image2cpp/
-// 128x64 SSD1306 OLED Display: https://s.click.aliexpress.com/e/_DCKdvnh
-// Transparent OLED display: https://s.click.aliexpress.com/e/_Dns6eLz
-// Arduino UNO: https://s.click.aliexpress.com/e/_AXDw1h
-// Arduino UNO MINI: https://store.arduino.cc/products/uno-mini-le
-// Big OLED Display: https://s.click.aliexpress.com/e/_ADL0T9
-// Arduino breadboard prototyping shield: https://s.click.aliexpress.com/e/_ApbCwx
-// u8g fonts (fonts available for u8g library): https://nodemcu-build.com/u8g-fonts.php
-// u8g documentation: https://github.com/olikraus/u8glib/wiki/userreference
-// Photopea (online Photoshop-like tool): https://www.photopea.com/
-// image2cpp (convert images into C code): https://javl.github.io/image2cpp/
-// Push buttons - https://s.click.aliexpress.com/e/_DmXS8B9
-// LCD displays: https://s.click.aliexpress.com/e/_DBgR45P
-// u8g2 documentation: https://github.com/olikraus/u8g2/wiki/u8gvsu8g2
-// Image Magick: https://imagemagick.org/index.php
-// LCD Image converter: https://lcd-image-converter.riuson.com/en/about/
-
-
-// Related videos:
-// Arduino Parking Sensor - https://youtu.be/sEWw087KOj0
-// Turbo pressure gauge with Arduino and OLED display - https://youtu.be/JXmw1xOlBdk
-// Arduino Car Cluster with OLED Display - https://youtu.be/El5SJelwV_0
-// Knob over OLED Display - https://youtu.be/SmbcNx7tbX8
-// Arduino + OLED = 3D ? - https://youtu.be/kBAcaA7NAlA
-// Arduino OLED Gauge - https://youtu.be/xI6dXTA02UQ
-// Smaller & Faster Arduino - https://youtu.be/4GfPQoIRqW8
-
-
-
 #include "U8g2lib.h"
 
-U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0); // [full framebuffer, size = 1024 bytes]
+// Pinout provided (use these pins for SH1106 SPI)
+const uint8_t PIN_MOSI = 37; // OLED DIN / SPI MOSI
+const uint8_t PIN_CLK  = 36; // OLED SCK / SPI clock
+const uint8_t PIN_CS   = 40; // OLED chip select
+const uint8_t PIN_RST  = 39; // OLED reset
+const uint8_t PIN_DC   = 38; // OLED data/command
 
+// Use SH1106 driver with software SPI because custom pins are used.
+// Constructor order for SW_SPI: rotation, clock, data, cs, dc, reset
+U8G2_SH1106_128X64_NONAME_F_SW_SPI u8g2(U8G2_R0, PIN_CLK, PIN_MOSI, PIN_CS, PIN_DC, PIN_RST); // full framebuffer
 
 // all the arrays below are generated from images using Image Magick
 // scroll down to see the actual code
 
 const unsigned char upir_logo [] PROGMEM = {  
   0xEA, 0x3A, 0xAA, 0x28, 0x6A, 0x1A, 0x26, 0x2A, };
-
 
 // 'icon_3dcube', 16x16px
 const unsigned char bitmap_icon_3dcube [] PROGMEM = {
